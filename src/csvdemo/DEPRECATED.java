@@ -88,7 +88,7 @@ import java.util.Scanner;
         }
         System.out.println(numReps);
     }*/
-public class csvdelim { //THE CODE FOR ANALYZING THE TRAINER DATA
+public class DEPRECATED { //THE CODE FOR ANALYZING THE TRAINER DATA
 
 	public static void main(String[] args){
         //exResults.setNumExcersizes(3); //simulates 3 good reps from the trainer file.
