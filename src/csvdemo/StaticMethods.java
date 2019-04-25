@@ -117,4 +117,49 @@ public class StaticMethods {
 		
 		return values;
 	}
+	/*
+	public static Result detectReps(ArrayList<ArrayList<Float>> data, int columndata, int columntime) {
+		ArrayList <Integer> zeros = findZeros(data.get(columndata),columndata,columntime);
+		if(zeros == null) {
+			return new Result(0);
+		}
+		
+		
+		return null;
+	}
+	*/
+	
+	public static Float[] findMinAndMax(ArrayList<Float> data, int point1, int point2) {
+		Float min = (float) 0;
+		Float max = (float) 0;
+		for(int i=point1; i<=point2; i++) {
+			max = Math.max(data.get(i),max);
+			min = Math.min(data.get(i), min);
+		}
+		
+		
+		return new Float[] {min,max};
+		
+	}
+	/*
+	 * Returns the times at which zeros occur
+	 */
+	public static ArrayList<Float> findZeros(ArrayList<ArrayList<Float>> full, int columndata, int columntime){
+		ArrayList<Float> data = StaticMethods.getColumn(full, columndata);
+		ArrayList<Float> time = StaticMethods.getColumn(full, columntime);
+		
+		Float lastVal = data.get(0);
+		ArrayList<Float> zeros = new ArrayList<Float>();
+		int i = 0;
+		for(Float f : data) {
+			if(f > 0 && lastVal < 0) {
+				zeros.add(time.get(i));
+			}
+			else if(f < 0 && lastVal > 0) {
+				zeros.add(time.get(i));
+			}
+			i++;
+		}
+		return zeros;
+	}
 }
