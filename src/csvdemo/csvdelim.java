@@ -105,7 +105,6 @@ public class csvdelim { //THE CODE FOR ANALYZING THE TRAINER DATA
 		float maxtolerance = -8;
 		float mintime = 2000;
 		float maxtime = 5000; //ms
-		int numReps = 0;
 		//This will be a getter in the real one
         String fileName1= "./data/powercleanmodel.csv";
         
@@ -146,6 +145,7 @@ public class csvdelim { //THE CODE FOR ANALYZING THE TRAINER DATA
         
      // the following code lets you iterate through the 2-dimensional array
         float lastValue = 0;
+        int numReps = 0;
         double a = 0.9;
         int currLine = 0;
         List<String> result = new ArrayList<String>();
@@ -154,8 +154,13 @@ public class csvdelim { //THE CODE FOR ANALYZING THE TRAINER DATA
         	float value = line.get(5)+(float)9.8;
         	value = (float)((1-a) *value+((a)*lastValue));
             result.add(line.get(0) + "," + value);
+            
+            if(lastValue < 0 && value >0) {
+            	//rising edge of rep detected
+            	numReps++;
+            }
         	
-        	lastValue = line.get(5);
+        	lastValue = value;
             currLine++;
  
         }
