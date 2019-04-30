@@ -14,5 +14,4 @@ public class Result {
 		public void setNumReps(int numReps) {
 			this.numReps = numReps;
 		}
-	
 }

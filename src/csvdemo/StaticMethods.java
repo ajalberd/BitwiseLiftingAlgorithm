@@ -20,7 +20,7 @@ public class StaticMethods {
             result.add(value);
         	lastValue = value;
             currLine++;
-            System.out.println(value);
+            //System.out.println(value);
         }
         return result;
 	}
@@ -136,15 +136,12 @@ public class StaticMethods {
 			max = Math.max(data.get(i),max);
 			min = Math.min(data.get(i), min);
 		}
-		
-		
 		return new Float[] {min,max};
-		
 	}
 	/*
 	 * Returns the times at which zeros occur
 	 */
-	public static ArrayList<Float> findZeros(ArrayList<ArrayList<Float>> full, int columndata, int columntime){
+	public static ArrayList<Float> findZeros(ArrayList<ArrayList<Float>> full, int columndata, int columntime, double tolerance){
 		ArrayList<Float> data = StaticMethods.getColumn(full, columndata);
 		ArrayList<Float> time = StaticMethods.getColumn(full, columntime);
 		
@@ -152,12 +149,13 @@ public class StaticMethods {
 		ArrayList<Float> zeros = new ArrayList<Float>();
 		int i = 0;
 		for(Float f : data) {
-			if(f > 0 && lastVal < 0) {
+			if(f > tolerance && lastVal < tolerance) {
 				zeros.add(time.get(i));
 			}
-			else if(f < 0 && lastVal > 0) {
+			else if(f < tolerance && lastVal > tolerance) {
 				zeros.add(time.get(i));
 			}
+			lastVal = f;
 			i++;
 		}
 		return zeros;
