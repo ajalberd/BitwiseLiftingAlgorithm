@@ -56,11 +56,15 @@ public class Analysis {
 		ArrayList<Double> valuesToWrite = new ArrayList<Double>();
 		
 		//create values
-		Double average = timesBetweenReps.stream().mapToInt(val -> val).average().orElse(0.0);
+		Double average = 0.0;
+		for(int i: timesBetweenReps){
+			average+=(double)i;
+		}
+		average = 1.0*average/timesBetweenReps.size();
 		//add them
 		valuesToWrite.add(average);
 		
-		StaticMethods.writeFile1DDArr(valuesToWrite, "./data/6CalibrationValues.csv");
+		StaticMethods.writeFile1DDArr(valuesToWrite, "./data/CalibrationValues.csv");
 		
 		
 		
