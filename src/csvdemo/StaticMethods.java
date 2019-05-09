@@ -67,7 +67,7 @@ public class StaticMethods {
         return lines;
 	}
 	
-	public static void writeFile(ArrayList<ArrayList<Float>> output, String fileName) {
+	public static void writeFile2DFArr(ArrayList<ArrayList<Float>> output, String fileName) {
 		FileWriter writer = null;
 		try {
 			writer = new FileWriter(fileName);
@@ -92,6 +92,39 @@ public class StaticMethods {
 				e.printStackTrace();
 			}
 		}
+        try {
+			writer.close();
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
+	}
+	
+	public static void writeFile1DDArr(ArrayList<Double> output, String fileName) {
+		FileWriter writer = null;
+		try {
+			writer = new FileWriter(fileName);
+		} catch (IOException e1) {
+			
+			e1.printStackTrace();
+		} 
+		
+		
+			String toWrite = "";
+			for(double value : output) {
+				toWrite+=value+",";
+			}
+			if(toWrite.charAt(toWrite.length()-1) == ',') {
+				//last char is a , we need to remove it
+				toWrite = toWrite.substring(0, toWrite.length());
+			}
+			try {
+				writer.write(toWrite + "\n");
+			} catch (IOException e) {
+				
+				e.printStackTrace();
+			}
+		
         try {
 			writer.close();
 		} catch (IOException e) {

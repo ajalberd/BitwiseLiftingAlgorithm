@@ -1,5 +1,6 @@
 package csvdemo;
 
+
 import java.util.ArrayList;
 
 import csvdemo.StaticMethods;
@@ -9,21 +10,32 @@ public class Analysis {
 
 	public static void main(String[] args){
 		int numReps = 0;
-		//read in our file
+		/*
+		 * Read in our file
+		 */
 		ArrayList<ArrayList<Float>> values = StaticMethods.readFile("./data/15mspc.csv");
-		//pass the 5th column into the filter
 		
-		//normalize gravity to column 5
-		
-		
+		/*
+		 * Gather relevant columns of data needed to perform analysis and filter data if needed
+		 */
 		ArrayList<Float> dataColumn = StaticMethods.getColumn(values, 5);
 		ArrayList<Float> filteredData = StaticMethods.exponentialFilter(dataColumn);
 		values = StaticMethods.replaceColumn(values, filteredData, 5);
-		StaticMethods.writeFile(values, "./data/output.csv");
-		for(Float z : StaticMethods.findZeros(values, 5, 0,zeroTolerance)) {
-			System.out.println(z);
-		}
+		
+		/*
+		 * Write the output of the filtered data for testing
+		 */
+		//StaticMethods.writeFile(values, "./data/output.csv");
+		
+		/*
+		 * Find the zeros in the data with tolerance specified by zeroTolerance
+		 */
 		ArrayList<Float> temp = StaticMethods.findZeros(values, 5, 0,zeroTolerance);
+		ArrayList<Integer> timesBetweenReps = new ArrayList<Integer>();
+		
+		/*
+		 * Differentiate the reps and determine the time between them.
+		 */
 		for(int i = 0; i<temp.size()-1; i++ ) {
 			//find time between zeroes
 			int locTime1 = StaticMethods.getColumn(values, 0).indexOf(temp.get(i)); //for the first zero get time 1
@@ -32,10 +44,26 @@ public class Analysis {
 			Float max = StaticMethods.findMinAndMax(StaticMethods.getColumn(values, 5), locTime1, locTime2)[1]; //find the max between the two time points
 			if(max>lowTolerance) {													//is the max between them greater than out threshold?
 				System.out.println(timebetween + " | " + locTime1 + " | " + locTime2); //that's a rep
-				numReps++;
+				numReps++; //increment reps
+				timesBetweenReps.add(timebetween); //record the time this rep took
 			}
 		}
-		System.out.println(numReps);
+		
+		/*
+		 * Save a value of the average time between reps to a file.
+		 * More values can be added as necessary.
+		 */
+		ArrayList<Double> valuesToWrite = new ArrayList<Double>();
+		
+		//create values
+		Double average = timesBetweenReps.stream().mapToInt(val -> val).average().orElse(0.0);
+		//add them
+		valuesToWrite.add(average);
+		
+		StaticMethods.writeFile1DDArr(valuesToWrite, "./data/6CalibrationValues.csv");
+		
+		
+		
     }
 }
 
